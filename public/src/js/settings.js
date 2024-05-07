@@ -26,15 +26,16 @@
       $(this).addClass("selected");
     });
 
-    // $("#sidebar-dark-theme").on("click" , function(){
-    //   $body.removeClass(sidebar_classes);
-    //   $body.addClass("sidebar-dark");
-    //   $(".sidebar-bg-options").removeClass("selected");
-    //   $(this).addClass("selected");
-    // });
-
-
     //Navbar Backgrounds
+
+    $(".navbar-toggler").on("click", function() {
+      $(this).find(".icon-menu").css({
+          "border": "none",
+          "box-shadow": "none"
+      });
+    });
+  
+  
     $(".tiles.primary").on("click" , function(){
       $(".navbar").removeClass(navbar_classes);
       $(".navbar").addClass("navbar-primary");

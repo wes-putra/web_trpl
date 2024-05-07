@@ -23,29 +23,6 @@ class AuthController extends Controller
 
         return redirect()->back()->withErrors(['email' => 'Invalid credentials']);
     }
-
-    public function register(Request $request)
-    {
-        // Validasi input
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-        ]);
-
-        // Buat pengguna baru
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-            'role' => 'admin', // Default role
-        ]);
-
-        // Autentikasi pengguna baru
-        Auth::login($user);
-
-        return redirect('/admin');
-    }
 }
 
 

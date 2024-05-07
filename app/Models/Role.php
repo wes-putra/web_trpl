@@ -4,12 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\User;
 
-class Menu extends Model
+class Role extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'id';
+    protected $table = 'roles';
     protected $fillable = [
-        'name',
+        'nama_role',
     ];
+
 }

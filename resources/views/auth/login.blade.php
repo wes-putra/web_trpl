@@ -12,7 +12,7 @@
                             </div>
                         </div>
                         <h6 class="font-weight-light">Sign in to continue.</h6>
-                        <form action="{{ route('loginAdmin') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('loginUser') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="pt-3">
                                 <div class="form-group">
