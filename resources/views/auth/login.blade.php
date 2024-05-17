@@ -12,16 +12,16 @@
                             </div>
                         </div>
                         <h6 class="font-weight-light">Sign in to continue.</h6>
-                        <form action="{{ route('loginUser') }}" method="POST" enctype="multipart/form-data">
+                        <form id="loginForm" enctype="multipart/form-data">
                             @csrf
                             <div class="pt-3">
                                 <div class="form-group">
-                                    <input type="email" class="form-control form-control-lg" id="exampleInputEmail1"
-                                        placeholder="Username" name="email"> <!-- Tambahkan name="email" -->
+                                    <input type="email" class="form-control form-control-lg" id="email"
+                                        placeholder="Username" name="email">
                                 </div>
                                 <div class="form-group">
                                     <input type="password" class="form-control form-control-lg"
-                                        id="exampleInputPassword1" placeholder="Password" name="password"> <!-- Tambahkan name="password" -->
+                                        id="password" placeholder="Password" name="password">
                                 </div>
                                 <div class="mt-3">
                                     <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">
@@ -40,3 +40,48 @@
     </div>
 </div>
 @endsection
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function () {
+
+        var token = localStorage.getItem('access_token');
+        if (token) {
+            window.location.href = '/admin';
+        }
+
+        var host = "http://127.0.0.1:8000/api";
+
+        $('#loginForm').submit(function(event) {
+            event.preventDefault(); 
+            var email = $('#email').val();
+            var password = $('#password').val();
+
+            var requestData = {
+                email: email,
+                password: password
+            };
+            
+           $.ajax({
+                url: host + '/login',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(requestData),
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                success: function(data) {
+                    console.log(data);
+
+                    var token = data.token;
+                    localStorage.setItem('access_token', token);
+                    window.location.href = data.url;
+                },
+                error: function(xhr, status, error) {
+                    console.error('There has been a problem with your AJAX operation:', error);
+                }
+            });
+        });
+    });
+
+</script>
+

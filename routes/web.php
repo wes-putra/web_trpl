@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\UserController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,23 +20,19 @@ Route::get('/', function () {
     return view('public.welcome');
 });
 
-Route::get('logout', function () {
-    auth()->logout();
-    Session()->flush();
+Route::get('/login', function(){
+    return view('auth.login');
+})->name('login');
 
-    return Redirect::to('/');
-})->name('logout');
 
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('loginUser');
-
+//AdminController
+Route::get('/admin', function(){
+    return view('admin.dashboard');
+})->name('dashboard')->middleware('checkRole:Admin;Kaprodi');
 
 Route::middleware(['checkRole:Admin'])->group(function () {
     Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
     Route::post('/register', [AuthController::class, 'register']);
-
-    //AdminController
-    Route::get('/admin', [AdminController::class, 'dashboard'])->name('dashboard');
 
     // userControllter
     Route::prefix('Admin/User')->group(function () {

@@ -1,4 +1,4 @@
-<nav class="sidebar sidebar-offcanvas" id="sidebar">
+<nav class="sidebar sidebar-offcanvas mt-3" id="sidebar">
     <ul class="nav">
         <li class="nav-item">
             <a class="nav-link" href="{{route ('dashboard')}}" id="berandaLink">
@@ -23,6 +23,7 @@
                 <span class="menu-title">Menu</span>
             </div>
         </li>
+        @if(Auth::user()->hasRole('Admin'))
         <li class="nav-item dropdown" id="beranda">
             <a class="nav-link" href="#">
                 <i class="fa-solid fa-cube menu-icon"></i>
@@ -155,11 +156,46 @@
                 <span class="menu-title">Surat Edar Mahasiswa</span>
             </a>
         </li>
+        @endif
+        @if(Auth::user()->hasRole('Kaprodi'))
+        <li class="nav-item dropdown" id="beranda">
+            <a class="nav-link" href="#">
+                <i class="fa-solid fa-cube menu-icon"></i>
+                <span class="menu-title">Beranda</span>
+            </a>
+            <div class="submenu">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fa-solid fa-bars menu-icon"></i>
+                            <span class="menu-title">Berita Terbaru</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fa-solid fa-bars menu-icon"></i>
+                            <span class="menu-title">Fasilitas</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fa-solid fa-bars menu-icon"></i>
+                            <span class="menu-title">Akreditasi</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fa-solid fa-bars menu-icon"></i>
+                            <span class="menu-title">Kerjasama Mitra</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+        @endif
     </ul>
 </nav>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> -->
 
 <script>
 $(document).ready(function(){
