@@ -87,6 +87,28 @@ class FasilitasController extends Controller
         }
     }
 
+    public function edit($id)
+    {
+        try {
+            $fasilitas = Fasilitas::findOrFail($id);
+
+            $url = sprintf('/admin/fasilitas/edit/%d', $id);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Get fasilitas successful',
+                'fasilitas' => $fasilitas,
+                'url' => $url,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Failed to get fasilitas',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
     public function update(Request $request, $id)
     {
         try {
@@ -138,10 +160,12 @@ class FasilitasController extends Controller
             }
 
             $fasilitas->delete();
+            $url = '/admin/fasilitas';
 
             return response()->json([
                 'status' => 'success',
                 'message' => 'Fasilitas has been removed',
+                'url' => $url,
             ]);
         } catch (\Exception $e) {
             return response()->json([

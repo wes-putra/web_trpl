@@ -45,19 +45,41 @@ class KerjasamaMitraController extends Controller
                 }
             }
 
-            $fasilitas = KerjasamaMitra::create($validatedData);
+            $mitra = KerjasamaMitra::create($validatedData);
             $url = '/admin/kerjasama-mitra';
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'Add fasilitas successful',
-                'fasilitas' => $fasilitas,
+                'message' => 'Add Kerjasama Mitra successful',
+                'mitra' => $mitra,
                 'url' => $url,
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Failed to add fasilitas',
+                'message' => 'Failed to add Kerjasama Mitra',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function edit($id)
+    {
+        try {
+            $mitra = KerjasamaMitra::findOrFail($id);
+
+            $url = sprintf('/admin/mitra/edit/%d', $id);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Get Kerjasama Mitra successful',
+                'mitra' => $mitra,
+                'url' => $url,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Failed to get Kerjasama Mitra',
                 'error' => $e->getMessage()
             ], 500);
         }
@@ -97,14 +119,14 @@ class KerjasamaMitraController extends Controller
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'Update fasilitas successful',
+                'message' => 'Update Kerjasama Mitra successful',
                 'mitra' => $mitra,
                 'url' => $url,
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Failed to update fasilitas',
+                'message' => 'Failed to update Kerjasama Mitra',
                 'error' => $e->getMessage()
             ], 500);
         }
@@ -124,15 +146,17 @@ class KerjasamaMitraController extends Controller
             }
 
             $mitra->delete();
+            $url = '/admin/kerjasama-mitra';
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'Delete fasilitas successful',
+                'message' => 'Delete Kerjasama Mitra successful',
+                'url' => $url,
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Failed to delete fasilitas',
+                'message' => 'Failed to delete Kerjasama Mitra',
                 'error' => $e->getMessage()
             ], 500);
         }

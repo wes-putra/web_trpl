@@ -4,10 +4,15 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AkreditasiController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\BeritaController;
+use App\Http\Controllers\API\DosenStaffController;
 use App\Http\Controllers\API\FasilitasController;
 use App\Http\Controllers\API\RoleController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\KerjasamaMitraController;
+use App\Http\Controllers\API\KurikulumController;
+use App\Http\Controllers\API\SejarahController;
+use App\Http\Controllers\API\StrukturOrganisasiController;
+use App\Http\Controllers\API\VisiMisiTujuanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,17 +25,15 @@ use App\Http\Controllers\API\KerjasamaMitraController;
 |
 */
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
 // Auth
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('checkRole:Admin;Kaprodi');
 
 // UserController
 Route::prefix('admin/')->middleware('checkRole:Admin')->group(function () {
-    Route::get('users', [UserController::class, 'index']);
+    Route::get('user', [UserController::class, 'index']);
     Route::post('user', [UserController::class, 'store']);
+    Route::get('user/edit/{id}', [UserController::class, 'edit']);
     Route::put('user/{id}', [UserController::class, 'update']);
     Route::delete('user/{id}', [UserController::class, 'destroy']);
 });
@@ -42,20 +45,24 @@ Route::prefix('admin/')->middleware('checkRole:Admin')->group(function(){
     Route::delete('role/{id}', [RoleController::class, 'destroy']);
 });
 
+// Beranda Menu
 // BeritaController
 Route::prefix('admin/')->middleware('checkRole:Admin;Kaprodi')->group(function () {
-    Route::get('beritas', [BeritaController::class, 'index']);
+    Route::get('berita', [BeritaController::class, 'index']);
     Route::post('berita', [BeritaController::class, 'store']);
     Route::get('berita/{id}', [BeritaController::class, 'show']);
+    Route::get('berita/edit/{id}', [BeritaController::class, 'edit']);
     Route::put('berita/{id}', [BeritaController::class, 'update']);
     Route::delete('berita/single/{id}', [BeritaController::class, 'destroy_gambar']);
     Route::delete('berita/{id}', [BeritaController::class, 'destroy']);
 });
+
 // FasilitasController
 Route::prefix('admin/')->middleware('checkRole:Admin;Kaprodi')->group(function () {
     Route::get('fasilitas', [FasilitasController::class, 'index']);
     Route::post('fasilitas', [FasilitasController::class, 'store']);
     Route::get('fasilitas/{id}', [FasilitasController::class, 'show']);
+    Route::get('fasilitas/edit/{id}', [FasilitasController::class, 'edit']);
     Route::put('fasilitas/{id}', [FasilitasController::class, 'update']);
     Route::delete('fasilitas/{id}', [FasilitasController::class, 'destroy']);
 });
@@ -64,16 +71,62 @@ Route::prefix('admin/')->middleware('checkRole:Admin;Kaprodi')->group(function (
 Route::prefix('admin/')->middleware('checkRole:Admin;Kaprodi')->group(function () {
     Route::get('akreditasi', [AkreditasiController::class, 'index']);
     Route::post('akreditasi', [AkreditasiController::class, 'store']);
+    Route::get('akreditasi/edit', [AkreditasiController::class, 'edit']);
     Route::put('akreditasi', [AkreditasiController::class, 'update']);
-    Route::delete('akreditasi', [AkreditasiController::class, 'destroy']);
+    // Route::delete('akreditasi', [AkreditasiController::class, 'destroy']);
 });
 
+// KerjasamaMitraController 
 Route::prefix('admin/')->middleware('checkRole:Admin;Kaprodi')->group(function () {
     Route::get('/kerjasama-mitra', [KerjasamaMitraController::class, 'index']);
     Route::post('/kerjasama-mitra', [KerjasamaMitraController::class, 'store']);
+    Route::get('kerjasama-mitra/edit/{id}', [KerjasamaMitraController::class, 'edit']);
     Route::put('/kerjasama-mitra/{id}', [KerjasamaMitraController::class, 'update']);
     Route::delete('/kerjasama-mitra/{id}', [KerjasamaMitraController::class, 'destroy']);
 });
 
+// Profil Prodi Menu
+// SejarahController
+Route::prefix('admin/')->middleware('checkRole:Admin')->group(function () {
+    Route::get('sejarah', [SejarahController::class, 'index']);
+    Route::post('sejarah', [SejarahController::class, 'store']);
+    Route::get('sejarah/edit', [SejarahController::class, 'edit']);
+    Route::put('sejarah', [SejarahController::class, 'update']);
+    // Route::delete('sejarah', [SejarahController::class, 'destroy']);
+});
 
+// VisiMisiTujuanController 
+Route::prefix('admin/')->middleware('checkRole:Admin')->group(function () {
+    Route::get('visi-misi-tujuan', [VisiMisiTujuanController::class, 'index']);
+    Route::post('visi-misi-tujuan', [VisiMisiTujuanController::class, 'store']);
+    Route::get('visi-misi-tujuan/edit', [VisiMisiTujuanController::class, 'edit']);
+    Route::put('visi-misi-tujuan', [VisiMisiTujuanController::class, 'update']);
+    // Route::delete('visi-misi-tujuan', [VisiMisiTujuanController::class, 'destroy']);
+});
 
+// KurikulumController
+Route::prefix('admin/')->middleware('checkRole:Admin')->group(function () {
+    Route::get('kurikulum', [KurikulumController::class, 'index']);
+    Route::post('kurikulum', [KurikulumController::class, 'store']);
+    Route::get('kurikulum/{id}/download', [KurikulumController::class, 'download']);
+    Route::get('kurikulum/{id}/view', [KurikulumController::class, 'view']);
+    Route::delete('kurikulum/{id}', [KurikulumController::class, 'destroy']);
+});
+
+// DosenStaffController
+Route::prefix('admin/')->middleware('checkRole:Admin')->group(function () {
+    Route::get('dosen-staff', [DosenStaffController::class, 'index']);
+    Route::post('dosen-staff', [DosenStaffController::class, 'store']);
+    Route::get('dosen-staff/edit/{id}', [DosenStaffController::class, 'edit']);
+    Route::put('dosen-staff/{id}', [DosenStaffController::class, 'update']);
+    Route::delete('dosen-staff/{id}', [DosenStaffController::class, 'destroy']);
+});
+
+// StrukturOrganisasiController
+Route::prefix('admin/')->middleware('checkRole:Admin')->group(function () {
+    Route::get('struktur-organisasi', [StrukturOrganisasiController::class, 'index']);
+    Route::post('struktur-organisasi', [StrukturOrganisasiController::class, 'store']);
+    Route::get('struktur-organisasi/edit', [StrukturOrganisasiController::class, 'edit']);
+    Route::put('struktur-organisasi', [StrukturOrganisasiController::class, 'update']);
+    // Route::delete('struktur-organisasi', [StrukturOrganisasiController::class, 'destroy']);
+});

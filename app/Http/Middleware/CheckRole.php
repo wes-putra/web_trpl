@@ -14,7 +14,7 @@ class CheckRole
 {
     public function handle($request, Closure $next, $role)
     {
-        $user = Auth::guard('sanctum')->user();
+        // $user = Auth::guard('sanctum')->user();
 
         $cookieHeader = $request->header('Cookie');
 

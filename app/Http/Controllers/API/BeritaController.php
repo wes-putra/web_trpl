@@ -12,7 +12,7 @@ class BeritaController extends Controller
     {
         try {
             $beritas = Berita::all();
-            $url = '/admin/beritas';
+            $url = '/admin/berita';
 
             return response()->json([
                 'status' => 'success',
@@ -49,7 +49,7 @@ class BeritaController extends Controller
             }
 
             $berita = Berita::create($validatedData);
-            $url = '/admin/beritas';
+            $url = '/admin/berita';
 
             return response()->json([
                 'status' => 'success',
@@ -71,6 +71,27 @@ class BeritaController extends Controller
         try {
             $berita = Berita::findOrFail($id);
             $url = sprintf('/admin/berita/%d', $id);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Get berita successful',
+                'berita' => $berita,
+                'url' => $url
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Failed to get berita',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function edit($id)
+    {
+        try {
+            $berita = Berita::findOrFail($id);
+            $url = sprintf('/admin/berita/edit/%d', $id);
 
             return response()->json([
                 'status' => 'success',
@@ -111,7 +132,7 @@ class BeritaController extends Controller
             }
 
             $berita->update($validatedData);
-            $url = '/admin/beritas';
+            $url = '/admin/berita';
 
             return response()->json([
                 'status' => 'success',
@@ -168,10 +189,12 @@ class BeritaController extends Controller
             }
 
             $berita->delete();
+            $url = '/admin/berita';
 
             return response()->json([
                 'status' => 'success',
                 'message' => 'Berita has been removed',
+                'url' => $url,
             ]);
         } catch (\Exception $e) {
             return response()->json([
