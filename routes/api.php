@@ -6,10 +6,12 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\BeritaController;
 use App\Http\Controllers\API\DosenStaffController;
 use App\Http\Controllers\API\FasilitasController;
+use App\Http\Controllers\API\KegiatanController;
 use App\Http\Controllers\API\RoleController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\KerjasamaMitraController;
 use App\Http\Controllers\API\KurikulumController;
+use App\Http\Controllers\API\PrestasiController;
 use App\Http\Controllers\API\SejarahController;
 use App\Http\Controllers\API\StrukturOrganisasiController;
 use App\Http\Controllers\API\VisiMisiTujuanController;
@@ -129,4 +131,25 @@ Route::prefix('admin/')->middleware('checkRole:Admin')->group(function () {
     Route::get('struktur-organisasi/edit', [StrukturOrganisasiController::class, 'edit']);
     Route::put('struktur-organisasi', [StrukturOrganisasiController::class, 'update']);
     // Route::delete('struktur-organisasi', [StrukturOrganisasiController::class, 'destroy']);
+});
+
+// Kemahasiswaan menu
+// KegiatanController
+Route::prefix('admin/')->middleware('checkRole:Admin')->group(function () {
+    Route::get('kegiatan', [KegiatanController::class, 'index']);
+    Route::post('kegiatan', [KegiatanController::class, 'store']);
+    Route::get('kegiatan/{id}', [KegiatanController::class, 'show']);
+    Route::get('kegiatan/edit/{id}', [KegiatanController::class, 'edit']);
+    Route::put('kegiatan/{id}', [KegiatanController::class, 'update']);
+    Route::delete('kegiatan/{id}', [KegiatanController::class, 'destroy']);
+});
+
+// PrestasiController
+Route::prefix('admin/')->middleware('checkRole:Admin')->group(function () {
+    Route::get('prestasi', [PrestasiController::class, 'index']);
+    Route::post('prestasi', [PrestasiController::class, 'store']);
+    Route::get('prestasi/{id}', [PrestasiController::class, 'show']);
+    Route::get('prestasi/edit/{id}', [PrestasiController::class, 'edit']);
+    Route::put('prestasi/{id}', [PrestasiController::class, 'update']);
+    Route::delete('prestasi/{id}', [PrestasiController::class, 'destroy']);
 });
