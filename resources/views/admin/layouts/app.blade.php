@@ -120,12 +120,6 @@
   <!-- End custom js for this page-->
 
 <script>
-  $(document).ajaxSend(function(event, xhr, settings) {
-    var token = localStorage.getItem('access_token');
-    if (token) {
-        xhr.setRequestHeader('Authorization', 'Bearer ' + token); 
-    }
-  });
   var host = "http://127.0.0.1:8000/api";
 
   $('#logout').click(function() {
@@ -140,7 +134,6 @@
 
         success: function(data) {
             console.log(data);
-            localStorage.removeItem('access_token');
             window.location.href = data.url;
         },
         error: function(xhr, status, error) {

@@ -71,9 +71,6 @@
                 },
                 success: function(data) {
                     console.log(data);
-
-                    var token = data.token;
-                    localStorage.setItem('access_token', token);
                     window.location.href = data.url;
                 },
                 error: function(xhr, status, error) {

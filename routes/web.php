@@ -35,7 +35,7 @@ Route::middleware(['checkRole:Admin'])->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
 
     // userControllter
-    Route::prefix('Admin/User')->group(function () {
+    Route::prefix('admin/user')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('user.index');
         Route::get('/add', [UserController::class, 'create'])->name('user.create');
         Route::post('/store', [UserController::class, 'store'])->name('user.store');
