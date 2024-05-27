@@ -3,30 +3,28 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\DMutu;
 use Illuminate\Http\Request;
-use App\Models\Kurikulum;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 
-class KurikulumController extends Controller
+class DMutuController extends Controller
 {
     public function index()
     {
         try {
-            $kurikulums = Kurikulum::all();
-
-            $url = '/admin/kurikulum';
+            $dokumenMutu = DMutu::all();
+            $url = '/admin/dokumen-mutu';
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'Get data kurikulum successful',
-                'kurikulums' => $kurikulums,
+                'message' => 'Get data dokumen mutu successful',
+                'dokumenMutu' => $dokumenMutu,
                 'url' => $url,
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Failed to get data kurikulum',
+                'message' => 'Failed to get dokumen mutu',
                 'error' => $e->getMessage()
             ], 500);
         }
@@ -36,32 +34,33 @@ class KurikulumController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'semester' => 'required|string|max:255',
-                'file_kurikulum' => 'required|mimes:pdf|max:2048'
+                'nama_Dmutu' => 'required|string|max:255',
+                'file_Dmutu' => 'nullable|mimes:pdf,doc,docx,xls,xlsx|max:2048',
+                'keterangan' => 'nullable|string',
             ]);
 
-            if ($request->hasFile('file_kurikulum')) {
-                $file = $request->file('file_kurikulum');
+            if ($request->hasFile('file_Dmutu')) {
+                $file = $request->file('file_Dmutu');
                 if ($file->isValid()) {
-                    $fileName = uniqid('kurikulum_') . '.' . $file->getClientOriginalExtension();
-                    $file->move(public_path('files/kurikulum'), $fileName);
-                    $validatedData['file_kurikulum'] = $fileName;
+                    $FileName = uniqid('Dmutu_') . '.' . $file->getClientOriginalExtension();
+                    $file->move(public_path('files/dmutu'), $FileName);
+                    $validatedData['file_Dmutu'] = $FileName;
                 }
             }
 
-            $kurikulum = Kurikulum::create($validatedData);
-            $url = '/admin/kurikulum';
+            $dokumenMutu = DMutu::create($validatedData);
+            $url = '/admin/dokumen-mutu';
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'Add prestasi successful',
-                'kurikulum' => $kurikulum,
+                'message' => 'Add dokumen mutu successful',
+                'dokumenMutu' => $dokumenMutu,
                 'url' => $url,
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Failed to add prestasi',
+                'message' => 'Failed to add dokumen mutu',
                 'error' => $e->getMessage()
             ], 500);
         }
@@ -70,9 +69,9 @@ class KurikulumController extends Controller
     public function download($id)
     {
         try {
-            $kurikulum = Kurikulum::findOrFail($id);
+            $dokumenMutu = DMutu::findOrFail($id);
+            $filePath = public_path('files/dmutu/' . $dokumenMutu->file_Dmutu);
 
-            $filePath = public_path('files/kurikulum/' . $kurikulum->file_kurikulum);
             if (!File::exists($filePath)) {
                 return response()->json([
                     'status' => 'error',
@@ -84,7 +83,7 @@ class KurikulumController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'failed to download file',
+                'message' => 'Failed to download file',
                 'error' => $e->getMessage()
             ], 500);
         }
@@ -93,9 +92,9 @@ class KurikulumController extends Controller
     public function view($id)
     {
         try {
-            $kurikulum = Kurikulum::findOrFail($id);
+            $dokumenMutu = DMutu::findOrFail($id);
+            $filePath = public_path('files/dmutu/' . $dokumenMutu->file_Dmutu);
 
-            $filePath = public_path('files/kurikulum/' . $kurikulum->file_kurikulum);
             if (!File::exists($filePath)) {
                 return response()->json([
                     'status' => 'error',
@@ -116,24 +115,23 @@ class KurikulumController extends Controller
     public function destroy($id)
     {
         try {
-            $kurikulum = Kurikulum::findOrFail($id);
+            $dokumenMutu = DMutu::findOrFail($id);
+            $filePath = public_path('files/dmutu/' . $dokumenMutu->file_Dmutu);
 
-            if ($kurikulum->file_kurikulum) {
-                File::delete(public_path('files/kurikulum/' . $kurikulum->file_kurikulum));
+            if (File::exists($filePath)) {
+                File::delete($filePath);
             }
 
-            $kurikulum->delete();
-            $url = '/admin/kurikulum';
+            $dokumenMutu->delete();
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'Kurikulum has been removed',
-                'url' => $url,
+                'message' => 'Dokumen mutu has been removed',
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Failed to remove kurikulum',
+                'message' => 'Failed to delete dokumen mutu',
                 'error' => $e->getMessage()
             ], 500);
         }

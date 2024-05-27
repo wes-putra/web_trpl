@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AkreditasiController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\BeritaController;
+use App\Http\Controllers\API\DMutuController;
 use App\Http\Controllers\API\DosenStaffController;
 use App\Http\Controllers\API\FasilitasController;
 use App\Http\Controllers\API\KegiatanController;
@@ -11,9 +12,12 @@ use App\Http\Controllers\API\RoleController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\KerjasamaMitraController;
 use App\Http\Controllers\API\KurikulumController;
+use App\Http\Controllers\API\MKIController;
 use App\Http\Controllers\API\PrestasiController;
+use App\Http\Controllers\API\SEdarMahasiswaController;
 use App\Http\Controllers\API\SejarahController;
 use App\Http\Controllers\API\StrukturOrganisasiController;
+use App\Http\Controllers\API\TAController;
 use App\Http\Controllers\API\VisiMisiTujuanController;
 
 /*
@@ -52,7 +56,7 @@ Route::prefix('admin/')->middleware('checkRole:Admin')->group(function(){
 Route::prefix('admin/')->middleware('checkRole:Admin;Kaprodi')->group(function () {
     Route::get('berita', [BeritaController::class, 'index']);
     Route::post('berita', [BeritaController::class, 'store']);
-    Route::get('berita/{id}', [BeritaController::class, 'show']);
+    // Route::get('berita/{id}', [BeritaController::class, 'show']);
     Route::get('berita/edit/{id}', [BeritaController::class, 'edit']);
     Route::put('berita/{id}', [BeritaController::class, 'update']);
     Route::delete('berita/single/{id}', [BeritaController::class, 'destroy_gambar']);
@@ -63,7 +67,7 @@ Route::prefix('admin/')->middleware('checkRole:Admin;Kaprodi')->group(function (
 Route::prefix('admin/')->middleware('checkRole:Admin;Kaprodi')->group(function () {
     Route::get('fasilitas', [FasilitasController::class, 'index']);
     Route::post('fasilitas', [FasilitasController::class, 'store']);
-    Route::get('fasilitas/{id}', [FasilitasController::class, 'show']);
+    // Route::get('fasilitas/{id}', [FasilitasController::class, 'show']);
     Route::get('fasilitas/edit/{id}', [FasilitasController::class, 'edit']);
     Route::put('fasilitas/{id}', [FasilitasController::class, 'update']);
     Route::delete('fasilitas/{id}', [FasilitasController::class, 'destroy']);
@@ -75,6 +79,8 @@ Route::prefix('admin/')->middleware('checkRole:Admin;Kaprodi')->group(function (
     Route::post('akreditasi', [AkreditasiController::class, 'store']);
     Route::get('akreditasi/edit', [AkreditasiController::class, 'edit']);
     Route::put('akreditasi', [AkreditasiController::class, 'update']);
+    
+    // route delete memang dihapus
     // Route::delete('akreditasi', [AkreditasiController::class, 'destroy']);
 });
 
@@ -94,6 +100,8 @@ Route::prefix('admin/')->middleware('checkRole:Admin')->group(function () {
     Route::post('sejarah', [SejarahController::class, 'store']);
     Route::get('sejarah/edit', [SejarahController::class, 'edit']);
     Route::put('sejarah', [SejarahController::class, 'update']);
+    
+    // route delete memang dihapus
     // Route::delete('sejarah', [SejarahController::class, 'destroy']);
 });
 
@@ -103,6 +111,8 @@ Route::prefix('admin/')->middleware('checkRole:Admin')->group(function () {
     Route::post('visi-misi-tujuan', [VisiMisiTujuanController::class, 'store']);
     Route::get('visi-misi-tujuan/edit', [VisiMisiTujuanController::class, 'edit']);
     Route::put('visi-misi-tujuan', [VisiMisiTujuanController::class, 'update']);
+
+    // route delete memang dihapus
     // Route::delete('visi-misi-tujuan', [VisiMisiTujuanController::class, 'destroy']);
 });
 
@@ -110,8 +120,8 @@ Route::prefix('admin/')->middleware('checkRole:Admin')->group(function () {
 Route::prefix('admin/')->middleware('checkRole:Admin')->group(function () {
     Route::get('kurikulum', [KurikulumController::class, 'index']);
     Route::post('kurikulum', [KurikulumController::class, 'store']);
-    Route::get('kurikulum/{id}/download', [KurikulumController::class, 'download']);
-    Route::get('kurikulum/{id}/view', [KurikulumController::class, 'view']);
+    // Route::get('kurikulum/{id}/download', [KurikulumController::class, 'download']);
+    // Route::get('kurikulum/{id}/view', [KurikulumController::class, 'view']);
     Route::delete('kurikulum/{id}', [KurikulumController::class, 'destroy']);
 });
 
@@ -130,6 +140,8 @@ Route::prefix('admin/')->middleware('checkRole:Admin')->group(function () {
     Route::post('struktur-organisasi', [StrukturOrganisasiController::class, 'store']);
     Route::get('struktur-organisasi/edit', [StrukturOrganisasiController::class, 'edit']);
     Route::put('struktur-organisasi', [StrukturOrganisasiController::class, 'update']);
+    
+    // route delete memang dihapus
     // Route::delete('struktur-organisasi', [StrukturOrganisasiController::class, 'destroy']);
 });
 
@@ -138,7 +150,7 @@ Route::prefix('admin/')->middleware('checkRole:Admin')->group(function () {
 Route::prefix('admin/')->middleware('checkRole:Admin')->group(function () {
     Route::get('kegiatan', [KegiatanController::class, 'index']);
     Route::post('kegiatan', [KegiatanController::class, 'store']);
-    Route::get('kegiatan/{id}', [KegiatanController::class, 'show']);
+    // Route::get('kegiatan/{id}', [KegiatanController::class, 'show']);
     Route::get('kegiatan/edit/{id}', [KegiatanController::class, 'edit']);
     Route::put('kegiatan/{id}', [KegiatanController::class, 'update']);
     Route::delete('kegiatan/{id}', [KegiatanController::class, 'destroy']);
@@ -148,8 +160,69 @@ Route::prefix('admin/')->middleware('checkRole:Admin')->group(function () {
 Route::prefix('admin/')->middleware('checkRole:Admin')->group(function () {
     Route::get('prestasi', [PrestasiController::class, 'index']);
     Route::post('prestasi', [PrestasiController::class, 'store']);
-    Route::get('prestasi/{id}', [PrestasiController::class, 'show']);
+    // Route::get('prestasi/{id}', [PrestasiController::class, 'show']);
     Route::get('prestasi/edit/{id}', [PrestasiController::class, 'edit']);
     Route::put('prestasi/{id}', [PrestasiController::class, 'update']);
     Route::delete('prestasi/{id}', [PrestasiController::class, 'destroy']);
 });
+
+// Dokumen Menu
+// DMutuController gaduk iki sek an
+Route::prefix('admin/')->middleware('checkRole:Admin')->group(function () {
+    Route::get('dokumen-mutu', [DMutuController::class, 'index']);
+    Route::post('dokumen-mutu', [DMutuController::class, 'store']);
+    Route::get('dokumen-mutu/{id}/download', [DMutuController::class, 'download']);
+    Route::get('dokumen-mutu/{id}/view', [DMutuController::class, 'view']);
+    Route::delete('dokumen-mutu/{id}', [DMutuController::class, 'destroy']);
+});
+
+// SEdarMahasiswaController
+Route::prefix('admin/')->middleware('checkRole:Admin')->group(function () {
+    Route::get('surat-edar', [SEdarMahasiswaController::class, 'index']);
+    Route::post('surat-edar', [SEdarMahasiswaController::class, 'store']);
+    // Route::get('surat-edar/{id}/download', [SEdarMahasiswaController::class, 'download']);
+    // Route::get('surat-edar/{id}/view', [SEdarMahasiswaController::class, 'view']);
+    Route::delete('surat-edar/{id}', [SEdarMahasiswaController::class, 'destroy']);
+});
+
+// TAController
+Route::prefix('admin/')->middleware('checkRole:Admin')->group(function () {
+    Route::get('tugas-akhir', [TAController::class, 'index']);
+    Route::post('tugas-akhir', [TAController::class, 'store']);
+    // Route::get('tugas-akhir/{id}/download', [TAController::class, 'download']);
+    // Route::get('tugas-akhir/{id}/view', [TAController::class, 'view']);
+    Route::delete('tugas-akhir/{id}', [TAController::class, 'destroy']);
+});
+
+// MKIController
+Route::prefix('admin/')->middleware('checkRole:Admin')->group(function () {
+    Route::get('magang-kerja-industri', [MKIController::class, 'index']);
+    Route::post('magang-kerja-industri', [MKIController::class, 'store']);
+    // Route::get('magang-kerja-industri/{id}/download', [MKIController::class, 'download']);
+    // Route::get('magang-kerja-industri/{id}/view', [MKIController::class, 'view']);
+    Route::delete('magang-kerja-industri/{id}', [MKIController::class, 'destroy']);
+});
+
+// yang bisa diakses pengunjung
+Route::get('berita/{id}', [BeritaController::class, 'show']);
+
+Route::get('fasilitas/{id}', [FasilitasController::class, 'show']);
+
+Route::get('kurikulum/{id}/download', [KurikulumController::class, 'download']);
+Route::get('kurikulum/{id}/view', [KurikulumController::class, 'view']);
+
+Route::get('prestasi/{id}', [PrestasiController::class, 'show']);
+
+Route::get('kegiatan/{id}', [KegiatanController::class, 'show']);
+
+Route::get('dokumen-mutu/{id}/download', [DMutuController::class, 'download']);
+Route::get('dokumen-mutu/{id}/view', [DMutuController::class, 'view']);
+
+Route::get('surat-edar/{id}/download', [SEdarMahasiswaController::class, 'download']);
+Route::get('surat-edar/{id}/view', [SEdarMahasiswaController::class, 'view']);
+
+Route::get('tugas-akhir/{id}/download', [TAController::class, 'download']);
+Route::get('tugas-akhir/{id}/view', [TAController::class, 'view']);
+
+Route::get('magang-kerja-industri/{id}/download', [MKIController::class, 'download']);
+Route::get('magang-kerja-industri/{id}/view', [MKIController::class, 'view']);
