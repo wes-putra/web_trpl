@@ -23,7 +23,7 @@
                 <span class="menu-title">Menu</span>
             </div>
         </li>
-        @if(Auth::user()->hasRole('Admin'))
+        @if(Auth::user()->role_id == 1)
         <li class="nav-item dropdown" id="beranda">
             <a class="nav-link" href="#">
                 <i class="fa-solid fa-cube menu-icon"></i>
@@ -157,7 +157,7 @@
             </a>
         </li>
         @endif
-        @if(Auth::user()->hasRole('Kaprodi'))
+        @if(Auth::user()->role_id == 2)
         <li class="nav-item dropdown" id="beranda">
             <a class="nav-link" href="#">
                 <i class="fa-solid fa-cube menu-icon"></i>

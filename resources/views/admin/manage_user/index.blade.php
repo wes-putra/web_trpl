@@ -40,4 +40,21 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function () {
+        var host = "http://127.0.0.1:8000/api";
+
+        $.ajax({
+            url: host + '/admin/user',
+            method: 'GET',
+            success: function(data) {
+                console.log(data);
+            },
+            error: function(xhr, status, error) {
+                console.error('There has been a problem with your AJAX operation:', error);
+            }
+        });
+    });
+</script>
+
 @endsection

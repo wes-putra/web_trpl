@@ -4,9 +4,7 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 use Illuminate\Support\Facades\Cookie;
-use Laravel\Sanctum\PersonalAccessToken;
 
 class AuthController extends Controller
 {
@@ -18,8 +16,10 @@ class AuthController extends Controller
 
             session()->regenerate();
 
+            csrf_token();
+
             $user = Auth::user();
-            
+
             $token = $user->createToken('User')->plainTextToken;
 
             $cookieName = 'access_token';

@@ -33,10 +33,10 @@ use App\Http\Controllers\API\VisiMisiTujuanController;
 
 // Auth
 Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout'])->middleware('checkRole:Admin;Kaprodi');
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('checkRole:1;2');
 
 // UserController
-Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:Admin'])->group(function () {
+Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:1'])->group(function () {
     Route::get('user', [UserController::class, 'index']);
     Route::post('user', [UserController::class, 'store']);
     Route::get('user/edit/{id}', [UserController::class, 'edit']);
@@ -44,16 +44,9 @@ Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:Admin'])->group(
     Route::delete('user/{id}', [UserController::class, 'destroy']);
 });
 
-// RoleController
-Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:Admin'])->group(function () {
-    Route::get('roles', [RoleController::class, 'index']);
-    Route::post('role', [RoleController::class, 'store']);
-    Route::delete('role/{id}', [RoleController::class, 'destroy']);
-});
-
 // Beranda Menu
 // BeritaController
-Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:Admin;Kaprodi'])->group(function () {
+Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:1;2'])->group(function () {
     Route::get('berita', [BeritaController::class, 'index']);
     Route::post('berita', [BeritaController::class, 'store']);
     // Route::get('berita/{id}', [BeritaController::class, 'show']);
@@ -64,7 +57,7 @@ Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:Admin;Kaprodi'])
 });
 
 // FasilitasController
-Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:Admin;Kaprodi'])->group(function () {
+Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:1;2'])->group(function () {
     Route::get('fasilitas', [FasilitasController::class, 'index']);
     Route::post('fasilitas', [FasilitasController::class, 'store']);
     // Route::get('fasilitas/{id}', [FasilitasController::class, 'show']);
@@ -74,7 +67,7 @@ Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:Admin;Kaprodi'])
 });
 
 // AkreditasiController
-Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:Admin;Kaprodi'])->group(function () {
+Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:1;2'])->group(function () {
     Route::get('akreditasi', [AkreditasiController::class, 'index']);
     Route::post('akreditasi', [AkreditasiController::class, 'store']);
     Route::get('akreditasi/edit', [AkreditasiController::class, 'edit']);
@@ -85,7 +78,7 @@ Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:Admin;Kaprodi'])
 });
 
 // KerjasamaMitraController 
-Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:Admin;Kaprodi'])->group(function () {
+Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:1;2'])->group(function () {
     Route::get('/kerjasama-mitra', [KerjasamaMitraController::class, 'index']);
     Route::post('/kerjasama-mitra', [KerjasamaMitraController::class, 'store']);
     Route::get('kerjasama-mitra/edit/{id}', [KerjasamaMitraController::class, 'edit']);
@@ -95,7 +88,7 @@ Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:Admin;Kaprodi'])
 
 // Profil Prodi Menu
 // SejarahController
-Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:Admin'])->group(function () {
+Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:1'])->group(function () {
     Route::get('sejarah', [SejarahController::class, 'index']);
     Route::post('sejarah', [SejarahController::class, 'store']);
     Route::get('sejarah/edit', [SejarahController::class, 'edit']);
@@ -106,7 +99,7 @@ Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:Admin'])->group(
 });
 
 // VisiMisiTujuanController 
-Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:Admin'])->group(function () {
+Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:1'])->group(function () {
     Route::get('visi-misi-tujuan', [VisiMisiTujuanController::class, 'index']);
     Route::post('visi-misi-tujuan', [VisiMisiTujuanController::class, 'store']);
     Route::get('visi-misi-tujuan/edit', [VisiMisiTujuanController::class, 'edit']);
@@ -117,7 +110,7 @@ Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:Admin'])->group(
 });
 
 // KurikulumController
-Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:Admin'])->group(function () {
+Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:1'])->group(function () {
     Route::get('kurikulum', [KurikulumController::class, 'index']);
     Route::post('kurikulum', [KurikulumController::class, 'store']);
     // Route::get('kurikulum/{id}/download', [KurikulumController::class, 'download']);
@@ -126,7 +119,7 @@ Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:Admin'])->group(
 });
 
 // DosenStaffController
-Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:Admin'])->group(function () {
+Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:1'])->group(function () {
     Route::get('dosen-staff', [DosenStaffController::class, 'index']);
     Route::post('dosen-staff', [DosenStaffController::class, 'store']);
     Route::get('dosen-staff/edit/{id}', [DosenStaffController::class, 'edit']);
@@ -135,7 +128,7 @@ Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:Admin'])->group(
 });
 
 // StrukturOrganisasiController
-Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:Admin'])->group(function () {
+Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:1'])->group(function () {
     Route::get('struktur-organisasi', [StrukturOrganisasiController::class, 'index']);
     Route::post('struktur-organisasi', [StrukturOrganisasiController::class, 'store']);
     Route::get('struktur-organisasi/edit', [StrukturOrganisasiController::class, 'edit']);
@@ -147,7 +140,7 @@ Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:Admin'])->group(
 
 // Kemahasiswaan menu
 // KegiatanController
-Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:Admin'])->group(function () {
+Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:1'])->group(function () {
     Route::get('kegiatan', [KegiatanController::class, 'index']);
     Route::post('kegiatan', [KegiatanController::class, 'store']);
     // Route::get('kegiatan/{id}', [KegiatanController::class, 'show']);
@@ -157,7 +150,7 @@ Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:Admin'])->group(
 });
 
 // PrestasiController
-Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:Admin'])->group(function () {
+Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:1'])->group(function () {
     Route::get('prestasi', [PrestasiController::class, 'index']);
     Route::post('prestasi', [PrestasiController::class, 'store']);
     // Route::get('prestasi/{id}', [PrestasiController::class, 'show']);
@@ -168,7 +161,7 @@ Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:Admin'])->group(
 
 // Dokumen Menu
 // DMutuController gaduk iki sek an
-Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:Admin'])->group(function () {
+Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:1'])->group(function () {
     Route::get('dokumen-mutu', [DMutuController::class, 'index']);
     Route::post('dokumen-mutu', [DMutuController::class, 'store']);
     Route::get('dokumen-mutu/{id}/download', [DMutuController::class, 'download']);
@@ -177,7 +170,7 @@ Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:Admin'])->group(
 });
 
 // SEdarMahasiswaController
-Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:Admin'])->group(function () {
+Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:1'])->group(function () {
     Route::get('surat-edar', [SEdarMahasiswaController::class, 'index']);
     Route::post('surat-edar', [SEdarMahasiswaController::class, 'store']);
     // Route::get('surat-edar/{id}/download', [SEdarMahasiswaController::class, 'download']);
@@ -186,7 +179,7 @@ Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:Admin'])->group(
 });
 
 // TAController
-Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:Admin'])->group(function () {
+Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:1'])->group(function () {
     Route::get('tugas-akhir', [TAController::class, 'index']);
     Route::post('tugas-akhir', [TAController::class, 'store']);
     // Route::get('tugas-akhir/{id}/download', [TAController::class, 'download']);
@@ -195,7 +188,7 @@ Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:Admin'])->group(
 });
 
 // MKIController
-Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:Admin'])->group(function () {
+Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:1'])->group(function () {
     Route::get('magang-kerja-industri', [MKIController::class, 'index']);
     Route::post('magang-kerja-industri', [MKIController::class, 'store']);
     // Route::get('magang-kerja-industri/{id}/download', [MKIController::class, 'download']);

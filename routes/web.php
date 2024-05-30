@@ -21,6 +21,9 @@ Route::get('/', function () {
 });
 
 Route::get('/login', function(){
+    if(Auth::check()){
+        return redirect()->route('dashboard');
+    }
     return view('auth.login');
 })->name('login');
 
@@ -28,9 +31,9 @@ Route::get('/login', function(){
 //AdminController
 Route::get('/admin', function(){
     return view('admin.dashboard');
-})->name('dashboard')->middleware('checkRole:Admin;Kaprodi');
+})->name('dashboard')->middleware('checkRole:1;2');
 
-Route::middleware(['checkRole:Admin'])->group(function () {
+Route::middleware(['checkRole:1'])->group(function () {
     Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
     Route::post('/register', [AuthController::class, 'register']);
 

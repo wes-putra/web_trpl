@@ -43,12 +43,6 @@
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <script>
     $(document).ready(function () {
-
-        var token = localStorage.getItem('access_token');
-        if (token) {
-            window.location.href = '/admin';
-        }
-
         var host = "http://127.0.0.1:8000/api";
 
         $('#loginForm').submit(function(event) {
@@ -81,4 +75,3 @@
     });
 
 </script>
-

@@ -23,13 +23,13 @@ class DatabaseSeeder extends Seeder
             'name' => 'admin',
             'email' => 'admin@gmail.com',
             'password' => '12345678',
-            'role' => 'Admin',
+            'role_id' => '1',
         ]);
         User::factory()->create([
             'name' => 'Fathur Rohman',
             'email' => 'kaprodi@gmail.com',
             'password' => '12345678',
-            'role' => 'Kaprodi',
+            'role_id' => '2',
         ]);
     }
 }

@@ -32,8 +32,9 @@ class CheckRole
         }
 
         $roles = explode(';', $role);
+                
         foreach ($roles as $r) {
-            if ($user->hasRole($r)) {
+            if ($user->role_id == intval($r)) {
                 return $next($request);
             }
         }
