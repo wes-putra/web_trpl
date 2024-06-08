@@ -59,8 +59,6 @@ class AuthController extends Controller
             'status' => 'success',
             'message' => 'Logout successful',
             'url' => $url
-        ])->withCookie($cookie);
+        ])->withoutCookie('access_token');
     }
 }
-
-

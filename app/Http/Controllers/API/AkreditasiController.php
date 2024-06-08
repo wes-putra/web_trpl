@@ -1,11 +1,12 @@
 <?php
-
 namespace App\Http\Controllers\API;
 
 use App\Models\Akreditasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 class AkreditasiController extends Controller
 {
@@ -25,6 +26,7 @@ class AkreditasiController extends Controller
                 'url' => $url,
             ]);
         } catch (\Exception $e) {
+            Log::error('Failed to retrieve akreditasi data: ' . $e->getMessage());
             return response()->json([
                 'status' => 'error',
                 'message' => 'Failed to retrieve akreditasi data',
@@ -60,7 +62,15 @@ class AkreditasiController extends Controller
                 'akreditasi' => $akreditasi,
                 'url' => $url,
             ]);
+        } catch (ValidationException $e) {
+            Log::error('Failed to add akreditasi: ' . $e->getMessage());
+            return response()->json([
+                'status' => 'error', 
+                'message' => 'Failed to add akreditasi', 
+                'errors' => $e->errors(),
+            ], 422);
         } catch (\Exception $e) {
+            Log::error('Failed to retrieve akreditasi data: ' . $e->getMessage());
             return response()->json([
                 'status' => 'error', 
                 'message' => 'Failed to add akreditasi', 
@@ -126,6 +136,13 @@ class AkreditasiController extends Controller
                 'akreditasi' => $akreditasi,
                 'url' => $url,
             ]);
+        } catch (ValidationException $e) {
+            Log::error('Failed to add akreditasi: ' . $e->getMessage());
+            return response()->json([
+                'status' => 'error', 
+                'message' => 'Failed to add akreditasi', 
+                'errors' => $e->errors(),
+            ], 422);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error', 

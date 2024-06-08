@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\PersonalAccessToken;
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
 
 class CheckRole
 {
@@ -34,7 +35,7 @@ class CheckRole
         $roles = explode(';', $role);
                 
         foreach ($roles as $r) {
-            if ($user->role_id == intval($r)) {
+            if ($user->role == $r) {
                 return $next($request);
             }
         }

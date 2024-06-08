@@ -31,7 +31,7 @@ Route::get('/login', function(){
 //AdminController
 Route::get('/admin', function(){
     return view('admin.dashboard');
-})->name('dashboard')->middleware('checkRole:1;2');
+})->name('dashboard')->middleware('checkRole:Admin;Kaprodi');
 
 Route::middleware(['checkRole:1'])->group(function () {
     Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
