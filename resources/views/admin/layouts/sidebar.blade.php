@@ -12,7 +12,7 @@
             </div>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{{route ('user.index')}}">
                 <i class="fa-solid fa-user menu-icon"></i>
                 <span class="menu-title">User</span>
             </a>

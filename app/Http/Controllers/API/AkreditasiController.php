@@ -79,30 +79,6 @@ class AkreditasiController extends Controller
         }
     }
 
-    public function edit()
-    {
-        try {
-            $Allakreditasi = Akreditasi::all();
-
-            $akreditasi = $Allakreditasi[0];
-
-            $url = '/admin/akreditasi/edit';
-
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Get akreditasi successful',
-                'akreditasi' => $akreditasi,
-                'url' => $url,
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Failed to get akreditasi',
-                'error' => $e->getMessage()
-            ], 500);
-        }
-    }
-
     public function update(Request $request)
     {
         try {

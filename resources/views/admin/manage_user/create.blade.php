@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Tambah User Baru</h4>
-                    <form action="{{ route('user.store') }}" method="POST">
+                        <form id="StoreForm" enctype="multipart/form-data" method="POST">
                         @csrf
                         <div class="row">
                             <div class="col-6 mb-3">
@@ -34,8 +34,8 @@
                             <div class="col-6 mb-3">
                                 <label for="role" class="form-label">Role</label>
                                 <select class="form-control" id="role" name="role" required>
-                                    <option value="Admin">Admin</option>
-                                    <option value="Kaprodi">Kaprodi</option>
+                                <option value="Admin" selected>Admin</option>
+                                <option value="Kaprodi">Kaprodi</option>
                                 </select>
                             </div>
                         </div>
@@ -46,18 +46,64 @@
         </div>
     </div>
 </div>
-
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <script>
     $(document).ready(function () {
-        $('#password_confirmation').on('input', function () {
+        var timeout;
+
+        function checkPassword() {
             var password = $('#password').val();
-            var confirmPassword = $(this).val();
+            var confirmPassword = $('#password_confirmation').val();
 
             if (password !== confirmPassword) {
                 $('#passwordError').html('Konfirmasi password tidak sesuai.');
             } else {
                 $('#passwordError').html('');
             }
+        }
+
+        $('#password, #password_confirmation').on('input', function () {
+            clearTimeout(timeout);
+            timeout = setTimeout(checkPassword, 2000);
+        });
+
+        var host = "http://127.0.0.1:8000/api";
+
+        $('#StoreForm').submit(function(event) {
+            event.preventDefault(); 
+
+            var name = $('#name').val();
+            var email = $('#email').val();
+            var password = $('#password').val();
+            var password_confirmation = $('#password_confirmation').val();
+            var role =$('#role').val();
+
+            var requestData = {
+                name : name,
+                email: email,
+                password: password,
+                password_confirmation : password_confirmation,
+                role : role,
+            };
+
+            console.log(requestData);
+
+            $.ajax({
+                url: host + '/admin/user',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(requestData),
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                success: function(data) {
+                    console.log(data);
+                    window.location.href = data.url;
+                },
+                error: function(xhr, status, error) {
+                    console.error('There has been a problem with your AJAX operation:', error);
+                }
+            });
         });
     });
 </script>

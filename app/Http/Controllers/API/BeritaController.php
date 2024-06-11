@@ -12,13 +12,11 @@ class BeritaController extends Controller
     {
         try {
             $beritas = Berita::all();
-            $url = '/admin/berita';
 
             return response()->json([
                 'status' => 'success',
                 'message' => 'Get data berita successful',
                 'berita' => $beritas,
-                'url' => $url
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -91,13 +89,11 @@ class BeritaController extends Controller
     {
         try {
             $berita = Berita::findOrFail($id);
-            $url = sprintf('/admin/berita/edit/%d', $id);
 
             return response()->json([
                 'status' => 'success',
                 'message' => 'Get berita successful',
                 'berita' => $berita,
-                'url' => $url
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -144,34 +140,6 @@ class BeritaController extends Controller
             return response()->json([
                 'status' => 'error',
                 'message' => 'Failed to update berita',
-                'error' => $e->getMessage()
-            ], 500);
-        }
-    }
-
-    public function destroy_gambar($id)
-    {
-        try {
-            $berita = Berita::findOrFail($id);
-
-            $gambar = public_path('images/berita/' . $berita->gambar);
-
-            if (File::exists($gambar)) {
-                File::delete($gambar);
-            }
-
-            $berita->update([
-                'gambar' => null,
-            ]);
-
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Gambar berita has been removed',
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Failed to remove gambar berita',
                 'error' => $e->getMessage()
             ], 500);
         }

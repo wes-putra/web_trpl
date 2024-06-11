@@ -70,7 +70,6 @@ Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:Admin;Kaprodi'])
 Route::prefix('admin/')->middleware(['auth:sanctum', 'checkRole:Admin;Kaprodi'])->group(function () {
     Route::get('akreditasi', [AkreditasiController::class, 'index']);
     Route::post('akreditasi', [AkreditasiController::class, 'store']);
-    Route::get('akreditasi/edit', [AkreditasiController::class, 'edit']);
     Route::put('akreditasi', [AkreditasiController::class, 'update']);
     
     // route delete memang dihapus

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cookie;
 
 class AuthController extends Controller
 {
@@ -43,8 +42,6 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         $user = Auth::guard('sanctum')->user();
-
-        $cookie = Cookie::forget('access_token');
 
         auth()->logout();
         Session()->flush();

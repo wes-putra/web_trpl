@@ -22,16 +22,8 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                @foreach($users as $user)
-                                <tr>
-                                    <td>{{ $user->name }}</td>
-                                    <td>{{ $user->email }}</td>
-                                    <td>
-                                        <a href="{{ route('user.edit', ['id' => $user->id]) }}" class="btn btn-primary">Edit</a>
-                                    </td>
-                                </tr>
-                                @endforeach
+                            <tbody id="table-user">
+                                <!-- data user -->
                             </tbody>
                         </table>
                     </div>
@@ -42,18 +34,60 @@
 </div>
 <script>
     $(document).ready(function () {
-        var host = "http://127.0.0.1:8000/api";
-
         $.ajax({
-            url: host + '/admin/user',
+            url: '/api/admin/user',
             method: 'GET',
             success: function(data) {
-                console.log(data);
+                if (Array.isArray(data.users)) {
+                    var tableBody = $('#table-user');
+
+                    // Iterasi setiap user dalam data
+                    data.users.forEach(function(user) {
+                        // Buat baris tabel baru
+                        var row = $('<tr></tr>');
+
+                        // Tambahkan data kolom
+                        row.append('<td>' + user.name + '</td>');
+                        row.append('<td>' + user.email + '</td>');
+                        row.append('<td><a href="'+ '/admin/user/edit/' + user.id + '" class="pd-1 btn btn-primary">Edit</a><button data-id="' + user.id + '" class="pd-2 btn btn-danger delete-button">Delete</button></td>');
+                        // Tambahkan baris ke dalam tabel
+                        tableBody.append(row);
+                    });
+
+                    $('.delete-button').on('click', function() {
+                    var userId = $(this).data('id');
+                    deleteUser(userId);
+                });
+                }
             },
             error: function(xhr, status, error) {
                 console.error('There has been a problem with your AJAX operation:', error);
             }
         });
+
+        function deleteUser(userId) {
+        if (confirm('Are you sure you want to delete this user?')) {
+            $.ajax({
+                url: '/api/admin/user/' + userId,
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    if (response.status === 'success') {
+                        alert('User deleted successfully');
+                        // Remove the user row from the table
+                        $('button[data-id="' + userId + '"]').closest('tr').remove();
+                    } else {
+                        alert('Failed to delete user');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('There has been a problem with your AJAX operation:', error);
+                }
+            });
+        }
+    }
     });
 </script>
 
